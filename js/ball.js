@@ -29,8 +29,8 @@ var ball = {
 		//console.log(this.rect.pos.x + " , " +this.rect.pos.y);
 		//console.log(this.rect.left);
 		//console.log(this.rect.left + this.rect.w);
-		console.log(this.rect.w);
-		console.log(canvas.width);
+		//console.log(this.rect.w);
+		//console.log(canvas.width);
 		if(this.rect.left < 0 || this.rect.left + this.rect.w > canvas.width){
 			this.bounce("vertical");
 		}

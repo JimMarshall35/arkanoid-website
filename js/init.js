@@ -1,4 +1,6 @@
 const normalpaddleURL = 'assets/normalbats.png';
+const normalblocksURL = "assets/normalblocks.png";
+const specialblocksURL = "assets/specialblocks.png";
 const ballURL = 'assets/ball.png';
 var canvas = document.getElementById('c');
 var drawlist = [[],[]];

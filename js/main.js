@@ -4,6 +4,7 @@ if(canvas.getContext){
 	var ctx = canvas.getContext('2d');
 	paddle.loadimage();
 	ball.loadimage();
+	levelspawner.loadimage();
 }
 else{
 	console.log("canvas not supported");
