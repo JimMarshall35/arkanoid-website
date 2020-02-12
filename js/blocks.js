@@ -1,8 +1,12 @@
 class Block{
-	constructor(rect, spritecoords, img){
+	constructor(rect, spritecoords, img, gridcoords){
 		this.rect = rect;
 		this.spritecoords = spritecoords;
 		this.img = img;
+		this.gridcoords = gridcoords
+		this.silver = false;
+		this.gold = false;
+		this.health = 1;
 		drawlist[1].push(this);
 	}
 
@@ -13,9 +17,29 @@ class Block{
 		let sy = this.spritecoords.y * sheight;
 		ctx.drawImage(this.img, sx, sy, swidth, sheight, this.rect.pos.x, this.rect.pos.y, this.rect.w, this.rect.h);
 	}
+	delete(){
+		//console.log(drawlist.length);
+		for(let i = 0; i<drawlist.length; i++){
+			if(drawlist[i] == this){
+				drawlist.splice(i, 1);
+			}
+		}
+		for(let i = 0; i<levelspawner.blocks.length; i++){
+			if(levelspawner.blocks[i] == this){
+				levelspawner.blocks.splice(i, 1);
+			}
+		}
+		for(let i = 0; i<levelspawner.collidableblocks.length; i++){
+			if(levelspawner.collidableblocks[i] == this){
+				levelspawner.collidableblocks.splice(i, 1);
+			}
+		}
+		//console.log(drawlist.length);
+	}
 }
 class SpecialBlock{
-	constructor(rect, spritecoords, img){
+	constructor(rect, spritecoords, img, gridcoords){
+		this.gridcoords = gridcoords
 		this.rect = rect;
 		this.spritecoords = spritecoords;
 		this.img = img;
@@ -24,6 +48,9 @@ class SpecialBlock{
 		this.animationtimer;
 		this.waittimer = d.getTime();
 		this.onlyonce = true;
+		this.silver = false;
+		this.gold = false;
+		this.health = 2;
 		drawlist[1].push(this);
 		updatelist.push(this);
 	}
@@ -53,5 +80,29 @@ class SpecialBlock{
 			this.spritecoords.x = index;
 
 		}
+	}
+	delete(){
+		//console.log(drawlist.length);
+		for(let i = 0; i<drawlist.length; i++){
+			if(drawlist[i] == this){
+				drawlist.splice(i, 1);
+			}
+		}
+		for(let i = 0; i<updatelist.length; i++){
+			if(updatelist[i] == this){
+				updatelist.splice(i, 1);
+			}
+		}
+		for(let i = 0; i<levelspawner.blocks.length; i++){
+			if(levelspawner.blocks[i] == this){
+				levelspawner.blocks.splice(i, 1);
+			}
+		}
+		for(let i = 0; i<levelspawner.collidableblocks.length; i++){
+			if(levelspawner.collidableblocks[i] == this){
+				levelspawner.collidableblocks.splice(i, 1);
+			}
+		}
+		//console.log(drawlist.length);
 	}
 }

@@ -1,10 +1,13 @@
 var levelspawner = {
 	blocks : [],
+	collidableblocks : [],
 	specialloaded : false,
 	normalloaded :false,
-	levelindex : 0,
+	levelindex : 6,
 	specialimage : null,
 	normalimage : null,
+	toprightangle : 0,
+	bottomrightangle : 0,
 
 	loadimage : function(){
 		var specialimg = new Image();
@@ -33,6 +36,17 @@ var levelspawner = {
 		normalimg.src = normalblocksURL;
 
 	},
+	initblockangles : function(){
+		let columns = levels.NES[this.levelindex][0].length;
+		let rows = levels.NES[this.levelindex].length;
+		let blockwidth = canvas.width / columns;
+		let blockheight = canvas.height / rows;
+		let m2t = new Vector2(blockwidth/2,0).subtract(new Vector2(blockwidth/2, blockheight/2));
+		let m2tr = new Vector2(blockwidth,0).subtract(new Vector2(blockwidth/2, blockheight/2));
+		let m2br = new Vector2(blockwidth,blockheight).subtract(new Vector2(blockwidth/2, blockheight/2));
+		this.toprightangle = m2t.getUnsignedAngle(m2tr);
+		this.bottomrightangle = m2t.getUnsignedAngle(m2br);
+	},
 	makelevel : function(){
 		let level = levels.NES[this.levelindex];
 		let blockwidth = canvas.width / 11;
@@ -46,14 +60,73 @@ var levelspawner = {
 				if(blockindex > 0){
 					let spritecoords = this.blockkey[blockindex - 1];
 					if(blockindex == 9 || blockindex == 10){
-						let block = new SpecialBlock(new Rect(new Vector2(cursor.x,cursor.y),blockwidth,blockheight), spritecoords, this.specialimage);
+						let block = new SpecialBlock(new Rect(new Vector2(cursor.x,cursor.y),blockwidth,blockheight), spritecoords, this.specialimage,{x:j, y:i});
+						if(blockindex == 10){
+							block.gold = true;
+						}
+						else{
+							block.silver = true;
+						}
 						this.blocks.push(block);
 					}
 					else{
-						this.blocks.push(new Block(new Rect(new Vector2(cursor.x,cursor.y),blockwidth,blockheight), spritecoords, this.normalimage));
+						this.blocks.push(new Block(new Rect(new Vector2(cursor.x,cursor.y),blockwidth,blockheight), spritecoords, this.normalimage,{x:j, y:i}));
 					}
-					
 				}
+
+			}
+			
+		}
+		this.initcollidableblocks();
+		this.initblockangles();
+		console.log("no of blocks: " + this.blocks.length);
+		console.log("no collidable: " + this.collidableblocks.length);
+	},
+	initcollidableblocks : function(){
+		for(let block of this.blocks){
+			let thisx = block.gridcoords.x;
+			let thisy = block.gridcoords.y;
+			let neighbours = [false,false,false,false]; // left, right, up, down
+			if(thisx == 0){                             // block is on the far left of the row
+				neighbours[0] = true;
+			}
+			else if(thisx == levels.NES[this.levelindex][0].length - 1){ // block is on the far right of the row
+				neighbours[1] = true;
+			}
+			else if(thisy == 0){                             // block is at the very top of the column
+				neighbours[2] = true;
+			}
+			else if(thisy == levels.NES[this.levelindex].length - 1){ // block is at the very bottom of the column
+				neighbours[3] = true;
+			}
+			for(let otherblock of this.blocks){
+				if(otherblock == block){
+					continue;
+				}
+				let otherx = otherblock.gridcoords.x;
+				let othery = otherblock.gridcoords.y;
+				if(otherx == thisx -1 && othery == thisy){ // block to the left
+					neighbours[0] = true;
+				}
+				else if(otherx == thisx +1 && othery == thisy){
+					neighbours[1] = true
+				}
+				else if(othery == thisy -1 && otherx == thisx){
+					neighbours[2] = true;
+				} 
+				else if(othery == thisy +1 && otherx == thisx){
+					neighbours[3] = true;
+				}
+			}
+			let push = false;
+			for(let neighbour of neighbours){
+				if(!neighbour){
+					push = true;
+					break;
+				}
+			}
+			if(push){
+				this.collidableblocks.push(block);
 			}
 		}
 	},
