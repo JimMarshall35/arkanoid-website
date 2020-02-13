@@ -1,9 +1,14 @@
+function getRandomIntInclusive(min, max) {
+	min = Math.ceil(min);
+	max = Math.floor(max);
+	return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
+}
 var levelspawner = {
 	blocks : [],
 	collidableblocks : [],
 	specialloaded : false,
 	normalloaded :false,
-	levelindex : 4,
+	levelindex : getRandomIntInclusive(0,34),
 	specialimage : null,
 	normalimage : null,
 	toprightangle : 0,
