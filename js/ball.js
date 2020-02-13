@@ -52,15 +52,40 @@ var ball = {
 			this.bounce(bouncetype);
 		}
 	},
+	getoverlaparea : function(rect1,rect2){
+		let l1 = new Vector2(rect1.pos.x, rect1.pos.y + rect1.h);
+		let r1 = new Vector2(rect1.pos.x + rect1.w, rect1.pos.y);
+		
+		let l2 = new Vector2(rect2.pos.x, rect2.pos.y + rect2.h);
+		let r2 = new Vector2(rect2.pos.x + rect2.w, rect2.pos.y);
+		areaI = (Math.min(r1.x, r2.x) - Math.max(l1.x, l2.x)) * (Math.min(r1.y, r2.y) - Math.max(l1.y, l2.y));
+		return areaI;
+	},
 	testcollisionblocks : function(){
 		let hit = false;
 		let block = null;
+		let cblocks = [];
 		for(let iblock of levelspawner.collidableblocks){
 			if(Rect.testCollision(iblock.rect, this.rect)){
 				hit = true;
-				block = iblock;
+				//block = iblock;
+				cblocks.push(iblock);
 				console.log("hit");
-				break;
+				//break;
+			}
+		}
+		if(cblocks.length = 1){
+			block = cblocks[0];
+		}
+		
+		else if(cblocks.length > 1){
+			let max = 0;
+			for(let i = 0; i<cblocks.length; i++){
+				let result = this.getoverlaparea(cblocks[i].rect, this.rect);
+				if(result > max){
+					max = result;
+					block = cblocks[i];
+				}
 			}
 		}
 		if(hit){
@@ -76,15 +101,16 @@ var ball = {
 			console.log(blockcenter2mycenter);
 			console.log(m2t);
 			*/
-			/*
+			
 			if(!block.gold){
 				block.health--;
 				if(block.health <= 0){
 					//console.log("deleted");
 					block.delete();
+					levelspawner.initcollidableblocks();
 				}
 			}
-			*/
+			
 			let angle = m2t.getUnsignedAngle(blockcenter2mycenter);
 			/*
 			console.log("TRA" + levelspawner.toprightangle * (180/Math.PI));
