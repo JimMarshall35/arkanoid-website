@@ -85,7 +85,7 @@ class SpecialBlock{
 		//console.log(drawlist.length);
 		for(let i = 0; i<drawlist[1].length; i++){
 			if(drawlist[1][i] == this){
-				drawlist.splice(i, 1);
+				drawlist[1].splice(i, 1);
 			}
 		}
 		for(let i = 0; i<updatelist.length; i++){
