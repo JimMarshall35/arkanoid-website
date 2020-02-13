@@ -3,7 +3,7 @@ var levelspawner = {
 	collidableblocks : [],
 	specialloaded : false,
 	normalloaded :false,
-	levelindex : 6,
+	levelindex : 4,
 	specialimage : null,
 	normalimage : null,
 	toprightangle : 0,
