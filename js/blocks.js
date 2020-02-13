@@ -19,9 +19,9 @@ class Block{
 	}
 	delete(){
 		//console.log(drawlist.length);
-		for(let i = 0; i<drawlist.length; i++){
-			if(drawlist[i] == this){
-				drawlist.splice(i, 1);
+		for(let i = 0; i<drawlist[1].length; i++){
+			if(drawlist[1][i] == this){
+				drawlist[1].splice(i, 1);
 			}
 		}
 		for(let i = 0; i<levelspawner.blocks.length; i++){
@@ -83,8 +83,8 @@ class SpecialBlock{
 	}
 	delete(){
 		//console.log(drawlist.length);
-		for(let i = 0; i<drawlist.length; i++){
-			if(drawlist[i] == this){
+		for(let i = 0; i<drawlist[1].length; i++){
+			if(drawlist[1][i] == this){
 				drawlist.splice(i, 1);
 			}
 		}
