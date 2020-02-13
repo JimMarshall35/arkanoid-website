@@ -13,7 +13,14 @@ var levelspawner = {
 	normalimage : null,
 	toprightangle : 0,
 	bottomrightangle : 0,
-
+	reset : function(){
+		for(let block of this.blocks){
+			block.delete();
+		}
+		blocks = [];
+		collidableblocks = [];
+		this.makelevel();
+	},
 	loadimage : function(){
 		var specialimg = new Image();
 		var normalimg = new Image();

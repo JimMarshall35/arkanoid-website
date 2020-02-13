@@ -35,4 +35,5 @@ loop = function(){
 document.body.addEventListener('mousemove', e => {
 	paddle.move(e.movementX);
 });
+document.body.addEventListener('click', gamecontroller.launchball);
 window.requestAnimationFrame(loop);

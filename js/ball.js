@@ -7,6 +7,8 @@ var ball = {
 	maxrot : 25,
 	lastpos : null,
 	speedincrease : 0.05,
+	stucktobat : true,
+	bat2me : null,
 	loadimage : function(){
 		var ballimg = new Image();
 		ballimg.onload = function(){
@@ -17,8 +19,12 @@ var ball = {
 		ballimg.src = ballURL;
 	},
 	init : function(){
-		ball.velocity = new Vector2(0,-1).multiplyByScalar(this.speed);
-		ball.rect = new Rect(new Vector2(canvas.width/2, canvas.height-50), 5* ball.scalefactor, 4*ball.scalefactor);
+		this.velocity = new Vector2(0,-1).multiplyByScalar(this.speed);
+		let pos = new Vector2(paddle.rect.pos.x + paddle.rect.w/2, paddle.rect.pos.y - (4*ball.scalefactor) - 1);
+		this.rect = new Rect(null, 5* ball.scalefactor, 4*ball.scalefactor);
+		//this.rect.pos = new Vector2(paddle.rect.pos.x + paddle.rect.w/2, paddle.rect.pos.y - (4*ball.scalefactor) - 1);
+		//this.bat2me = pos.subtract(paddle.rect.pos);	
+		this.sticktobat();
 		drawlist[0].push(ball);
 		updatelist.push(ball);
 
@@ -26,31 +32,48 @@ var ball = {
 	draw : function(){
 		ctx.drawImage(this.img, this.rect.pos.x, this.rect.pos.y, this.img.width * this.scalefactor, this.img.height * this.scalefactor);
 	},
+	sticktobat: function(){
+			
+		this.rect.pos = new Vector2(paddle.rect.pos.x + paddle.rect.w/2, paddle.rect.pos.y - (4*ball.scalefactor) - 1);
+		this.bat2me = this.rect.pos.subtract(paddle.rect.pos);
+		this.stucktobat = true;
+		this.speed = 4;
+	},
 	update : function(){
-		this.lastpos = this.rect.pos;
-		this.rect.pos = this.rect.pos.add(this.velocity);
-		//console.log(this.rect.pos.x + " , " +this.rect.pos.y);
-		//console.log(this.rect.left);
-		//console.log(this.rect.left + this.rect.w);
-		//console.log(this.rect.w);
-		//console.log(canvas.width);
-		if(this.rect.left < 0 || this.rect.left + this.rect.w > canvas.width){
-			this.rect.pos = this.lastpos;
-			this.bounce("vertical");
+		if(!this.stucktobat){
+			this.lastpos = this.rect.pos;
+			this.rect.pos = this.rect.pos.add(this.velocity);
+			//console.log(this.rect.pos.x + " , " +this.rect.pos.y);
+			//console.log(this.rect.left);
+			//console.log(this.rect.left + this.rect.w);
+			//console.log(this.rect.w);
+			//console.log(canvas.width);
+			if(this.rect.pos.y > canvas.height){
+				this.sticktobat();
+				gamecontroller.decrementlives();
+			}
+			if(this.rect.left < 0 || this.rect.left + this.rect.w > canvas.width){
+				this.rect.pos = this.lastpos;
+				this.bounce("vertical");
+			}
+			else if(this.rect.top < 0){
+				this.rect.pos = this.lastpos;
+				this.bounce("horizontal");
+			}
+			else if(Rect.testCollision(this.rect, paddle.rect)){
+				this.rect.pos = this.lastpos;
+				this.ballhitrotate();
+			}
+			let bouncetype = this.testcollisionblocks();
+			if(bouncetype != null){
+				this.rect.pos = this.lastpos;
+				this.bounce(bouncetype);
+			}
 		}
-		else if(this.rect.top < 0){
-			this.rect.pos = this.lastpos;
-			this.bounce("horizontal");
+		else{
+			this.rect.pos = paddle.rect.pos.add(this.bat2me);
 		}
-		else if(Rect.testCollision(this.rect, paddle.rect)){
-			this.rect.pos = this.lastpos;
-			this.ballhitrotate();
-		}
-		let bouncetype = this.testcollisionblocks();
-		if(bouncetype != null){
-			this.rect.pos = this.lastpos;
-			this.bounce(bouncetype);
-		}
+		
 	},
 	getoverlaparea : function(rect1,rect2){
 		let l1 = new Vector2(rect1.pos.x, rect1.pos.y + rect1.h);
