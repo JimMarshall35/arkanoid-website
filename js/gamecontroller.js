@@ -9,7 +9,7 @@ var gamecontroller = {
 	decrementlives : function(){
 		this.lives--;
 		if(this.lives <= 0){
-			lives = 3;
+			this.lives = 3;
 			levelspawner.reset();
 		}
 	}

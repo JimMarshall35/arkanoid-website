@@ -17,8 +17,9 @@ var levelspawner = {
 		for(let block of this.blocks){
 			block.delete();
 		}
-		blocks = [];
-		collidableblocks = [];
+		//this.blocks = [];
+		//this.collidableblocks = [];
+		console.log("after reset there are: " + this.collidableblocks.length + " collidable blocks out of " + this.blocks.length + " blocks");
 		this.makelevel();
 	},
 	loadimage : function(){
@@ -60,6 +61,7 @@ var levelspawner = {
 		this.bottomrightangle = m2t.getUnsignedAngle(m2br);
 	},
 	makelevel : function(){
+		this.blocks = [];
 		let level = levels.NES[this.levelindex];
 		let blockwidth = canvas.width / 11;
 		let blockheight = canvas.height / 28;
@@ -89,12 +91,16 @@ var levelspawner = {
 			}
 			
 		}
+		//console.log("no of blocks: " + this.blocks.length);
+		//console.log("no collidable: " + this.collidableblocks.length);
 		this.initcollidableblocks();
+		
+		console.log(this.collidableblocks);
+		console.log(this.blocks);
 		this.initblockangles();
-		console.log("no of blocks: " + this.blocks.length);
-		console.log("no collidable: " + this.collidableblocks.length);
 	},
 	initcollidableblocks : function(){
+		this.collidableblocks = [];
 		for(let block of this.blocks){
 			let thisx = block.gridcoords.x;
 			let thisy = block.gridcoords.y;
@@ -140,7 +146,10 @@ var levelspawner = {
 			if(push){
 				this.collidableblocks.push(block);
 			}
+			
 		}
+		console.log("no of blocks: " + this.blocks.length);
+		console.log("no collidable: " + this.collidableblocks.length);
 	},
 	blockkey : [
 		{x:0, y:0},

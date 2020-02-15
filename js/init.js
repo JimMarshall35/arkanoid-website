@@ -1,4 +1,4 @@
-const normalpaddleURL = 'assets/normalbats.png';
+const normalpaddleURL = 'assets/playerfullsheet.png';
 const normalblocksURL = "assets/normalblocks.png";
 const specialblocksURL = "assets/specialblocks.png";
 const ballURL = 'assets/ball.png';
