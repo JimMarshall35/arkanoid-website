@@ -20,15 +20,8 @@ var levelspawner = {
 		}
 	},
 	reset : function(){
-		// for(let block of this.blocks){
-		// 	block.health = 0;
-		// 	block.delete();
-		// 	this.initcollidableblocks();
-		// }
 		this.deleteall();
 		this.initcollidableblocks();
-		//this.blocks = [];
-		//this.collidableblocks = [];
 		console.log("after reset there are: " + this.collidableblocks.length + " collidable blocks out of " + this.blocks.length + " blocks");
 		this.makelevel();
 	},
