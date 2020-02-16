@@ -11,7 +11,7 @@ var paddle = {
 					return;
 				}
 				let index = Math.round((time/this.materializetime)*(paddle.currentanimation.frames.length-1));
-				paddle.currentframespritesheetrect = paddle.currentanimation.frames[index-1];
+				paddle.currentframespritesheetrect = paddle.currentanimation.frames[index];
 
 
 			},
@@ -170,23 +170,7 @@ var paddle = {
 		updatelist.push(this.state);
 
 	},
-	// update(){
-		
-	// 	let time = d.getTime() - this.animationtimer;
-	// 	if(time >= this.flashspeed){
-	// 		this.spritecoords.y++;
-	// 		this.animationtimer = d.getTime();
-	// 		if(this.spritecoords.y > 3){
-	// 			this.spritecoords.y = 0;
-	// 			this.spritecoords.x++;
-	// 			if(this.spritecoords.x > 3){
-	// 				this.spritecoords.x = 0;
-	// 			}
-	// 		}
-	// 	}
-	// 	let index = this.spritecoords.x + 4*this.spritecoords.y;
-	// 	this.currentframespritesheetrect = this.currentanimation.frames[index]; 
-	// },
+
 	move(deltaX){
 		this.rect.pos.x += deltaX;
 		if(this.rect.pos.x < 0){
