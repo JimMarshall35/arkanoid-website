@@ -1,8 +1,15 @@
 var gamecontroller = {
 	lives : 3,
+	readytolaunch : true,
 	launchball : function(evt){
 		console.log("launch");
-		if(ball.stucktobat && evt){
+		console.log(paddle.state);
+		console.log(this.readytolaunch);
+		
+		if(paddle.state == paddle.transitions.dead){
+			paddle.state.respawnready = true; 
+		}
+		else if(ball.stucktobat && evt){
 			ball.stucktobat = false;
 		}
 	}, 

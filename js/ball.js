@@ -48,9 +48,11 @@ var ball = {
 			//console.log(this.rect.left + this.rect.w);
 			//console.log(this.rect.w);
 			//console.log(canvas.width);
-			if(this.rect.pos.y > canvas.height){
-				this.sticktobat();
-				gamecontroller.decrementlives();
+			if(this.rect.pos.y > canvas.height && paddle.state != paddle.transitions.dead && paddle.state != paddle.transitions.init){
+				//this.sticktobat();
+				console.log(paddle.state);
+				paddle.state.transition2dead();
+				//gamecontroller.decrementlives();
 			}
 			if(this.rect.left < 0 || this.rect.left + this.rect.w > canvas.width){
 				this.rect.pos = this.lastpos;
