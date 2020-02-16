@@ -1,4 +1,5 @@
 var ball = {
+	drawlayer : 1,
 	scalefactor : 2,
 	img : null,
 	rect : null ,
@@ -15,6 +16,7 @@ var ball = {
 			ball.img = this;
 			console.log(ball.velocity);
 			ball.init();
+			loadscreen.registerloadedfile();
 		}
 		ballimg.src = ballURL;
 	},
@@ -25,7 +27,7 @@ var ball = {
 		//this.rect.pos = new Vector2(paddle.rect.pos.x + paddle.rect.w/2, paddle.rect.pos.y - (4*ball.scalefactor) - 1);
 		//this.bat2me = pos.subtract(paddle.rect.pos);	
 		this.sticktobat();
-		drawlist[0].push(ball);
+		drawlist[this.drawlayer].push(ball);
 		updatelist.push(ball);
 
 	},

@@ -5,6 +5,7 @@ if(canvas.getContext){
 	paddle.loadimage();
 	ball.loadimage();
 	levelspawner.loadimage();
+	background.loadimage();
 }
 else{
 	console.log("canvas not supported");
@@ -15,15 +16,20 @@ function updateAll(){
 	}
 }
 function drawAll(){
-	ctx.beginPath();
-	ctx.fillStyle = 'red';
-	ctx.fillRect(0, 0, canvas.width, canvas.height);
-	for(var i=0; i<drawlist.length; i++){ // iterate through layers
-		for(var j=0; j<drawlist[i].length; j++){ // draw each thing in the layer
-			drawlist[i][j].draw();
+	if(loadscreen.finished){
+		
+		ctx.beginPath();
+		ctx.fillStyle = 'red';
+		ctx.fillRect(0, 0, canvas.width, canvas.height);
+		for(var i=0; i<drawlist.length; i++){ // iterate through layers
+			for(var j=0; j<drawlist[i].length; j++){ // draw each thing in the layer
+				drawlist[i][j].draw();
+			}
 		}
 	}
-
+	else{
+		loadscreen.drawloadscreen();
+	}
 }
 loop = function(){
 	d = new Date();

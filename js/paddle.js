@@ -1,5 +1,5 @@
 var paddle = {
-	
+	drawlayer : 2,
 	transitions : {
 		init : {
 			materializetime : 500,
@@ -155,6 +155,7 @@ var paddle = {
 	loadimage : function(){
 		var normalpaddleimg = new Image();
 		normalpaddleimg.onload = function(){
+			loadscreen.registerloadedfile();
 			paddle.init(this);
 		}
 		normalpaddleimg.src = normalpaddleURL;
@@ -166,7 +167,7 @@ var paddle = {
 		this.initanimations();
 		this.currentanimation = this.animationsobj.startup;
 		this.state = this.transitions.init;
-		drawlist[1].push(this);
+		drawlist[this.drawlayer].push(this);
 		updatelist.push(this.state);
 
 	},

@@ -19,7 +19,7 @@ var levelspawner = {
 			this.deleteall();
 		}
 	},
-	reset : function(){
+	init : function(){
 		this.deleteall();
 		this.initcollidableblocks();
 		console.log("after reset there are: " + this.collidableblocks.length + " collidable blocks out of " + this.blocks.length + " blocks");
@@ -29,6 +29,7 @@ var levelspawner = {
 		var specialimg = new Image();
 		var normalimg = new Image();
 		specialimg.onload = function(){
+			loadscreen.registerloadedfile();
 			console.log("special");
 			levelspawner.specialloaded = true;
 			levelspawner.specialimage = this;
@@ -39,6 +40,7 @@ var levelspawner = {
 		}
 		specialimg.src = specialblocksURL;
 		normalimg.onload = function(){
+			loadscreen.registerloadedfile();
 			console.log("normal");
 			levelspawner.normalloaded = true;
 			levelspawner.normalimage = this;

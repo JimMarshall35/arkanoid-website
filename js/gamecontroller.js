@@ -17,7 +17,7 @@ var gamecontroller = {
 		this.lives--;
 		if(this.lives <= 0){
 			this.lives = 3;
-			levelspawner.reset();
+			levelspawner.init();
 		}
 	}
 	

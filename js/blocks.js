@@ -7,7 +7,8 @@ class Block{
 		this.silver = false;
 		this.gold = false;
 		this.health = 1;
-		drawlist[1].push(this);
+		this.drawlayer = 2;
+		drawlist[this.drawlayer].push(this);
 	}
 
 	draw(){
@@ -19,9 +20,9 @@ class Block{
 	}
 	delete(){
 		//console.log(drawlist.length);
-		for(let i = 0; i<drawlist[1].length; i++){
-			if(drawlist[1][i] == this){
-				drawlist[1].splice(i, 1);
+		for(let i = 0; i<drawlist[this.drawlayer].length; i++){
+			if(drawlist[this.drawlayer][i] == this){
+				drawlist[this.drawlayer].splice(i, 1);
 			}
 		}
 		for(let i = 0; i<levelspawner.blocks.length; i++){
@@ -51,7 +52,8 @@ class SpecialBlock{
 		this.silver = false;
 		this.gold = false;
 		this.health = 2;
-		drawlist[1].push(this);
+		this.drawlayer = 2;
+		drawlist[this.drawlayer].push(this);
 		updatelist.push(this);
 	}
 
@@ -83,9 +85,9 @@ class SpecialBlock{
 	}
 	delete(){
 		//console.log(drawlist.length);
-		for(let i = 0; i<drawlist[1].length; i++){
-			if(drawlist[1][i] == this){
-				drawlist[1].splice(i, 1);
+		for(let i = 0; i<drawlist[this.drawlayer].length; i++){
+			if(drawlist[this.drawlayer][i] == this){
+				drawlist[this.drawlayer].splice(i, 1);
 			}
 		}
 		for(let i = 0; i<updatelist.length; i++){
