@@ -90,29 +90,30 @@ var ball = {
 		let hit = false;
 		let block = null;
 		let cblocks = [];
-		for(let iblock of levelspawner.collidableblocks){
-			if(Rect.testCollision(iblock.rect, this.rect)){
-				hit = true;
-				//block = iblock;
-				cblocks.push(iblock);
-				console.log("hit");
-				//break;
-			}
-		}
-		if(cblocks.length = 1){
-			block = cblocks[0];
-		}
-		
-		else if(cblocks.length > 1){
-			let max = 0;
-			for(let i = 0; i<cblocks.length; i++){
-				let result = this.getoverlaparea(cblocks[i].rect, this.rect);
-				if(result > max){
-					max = result;
-					block = cblocks[i];
+		if(this.velocity.y < 0){
+			for(let i = levelspawner.collidableblocks.length-1; i >=0; i--){
+				let iblock = levelspawner.collidableblocks[i];
+				if(Rect.testCollision(iblock.rect, this.rect)){
+					hit = true;
+					block = iblock;
+					//cblocks.push(iblock);
+					break;
 				}
 			}
 		}
+		else{
+			for(let i = 0; i < levelspawner.collidableblocks.length; i++){
+				let iblock = levelspawner.collidableblocks[i];
+				if(Rect.testCollision(iblock.rect, this.rect)){
+					hit = true;
+					block = iblock;
+					//cblocks.push(iblock);
+					break;
+				}
+			}
+		}
+
+		
 		if(hit){
 			//console.log(block);
 			//console.log(this.lastpos);
@@ -142,7 +143,7 @@ var ball = {
 			console.log("BRA" + levelspawner.bottomrightangle * (180/Math.PI));
 			console.log("angle: "+angle * (180/Math.PI));
 			*/
-			this.rect.pos = this.lastpos;
+			//this.rect.pos = this.lastpos;
 			if (angle >= levelspawner.toprightangle && angle <= levelspawner.bottomrightangle){
 				return "vertical";
 			}
