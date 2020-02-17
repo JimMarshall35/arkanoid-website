@@ -176,10 +176,12 @@ var ball = {
 	},
 	ballhitrotate : function(){
 		this.velocity.y *= -1;
+		
 		var batcenter = paddle.rect.pos.x + (paddle.rect.w/2);
 		var disttobatcenter = this.rect.pos.x - batcenter;
 		var degrees = (disttobatcenter/(paddle.rect.w/2)) * this.maxrot;
 		var radians = degrees * (Math.PI/180);
 		this.velocity = this.velocity.rotate(radians);
+		this.rect.pos.y = paddle.rect.pos.y - this.rect.w -1;
 	}
 }

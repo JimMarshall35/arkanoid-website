@@ -1,5 +1,5 @@
 var loadscreen = {
-	filestoload : 5,
+	filestoload : 4,
 	filesloaded : 0,
 	finished : false,
 	margin : 50,

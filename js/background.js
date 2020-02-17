@@ -9,7 +9,7 @@ var background = {
 	loadimage : function(){
 		const gif = GIFGroover();
 		gif.onload = function(event){
-			loadscreen.registerloadedfile();
+			//loadscreen.registerloadedfile();
 			this.img = event.gif;
 		}	
 		gif.src = "https://files.shroomery.org/avatars/shroomery/295380a1376707692-big.gif";
