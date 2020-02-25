@@ -54,6 +54,7 @@ var levelspawner = {
 		normalimg.src = normalblocksURL;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 		pupimg.onload = function(){
 			console.log("powerup");
 			levelspawner.poweruploaded = true;
@@ -96,6 +97,10 @@ var levelspawner = {
 		}
 		
 	},
+=======
+
+	},
+>>>>>>> parent of 17afcd8... Merge branch 'master' of https://github.com/JimMarshall35/arkanoid-website
 =======
 
 	},
