@@ -59,7 +59,7 @@ var levelspawner = {
 		console.log("loadimage");
 		normalimg.src = normalblocksURL;
 		pupimg.onload = function(){
-			console.log("powerup);
+			console.log("powerup");
 			levelspawner.poweruploaded = true;
 			levelspawner.powerupimage = this;
 			if(levelspawner.specialloaded && levelspawner.normalloaded){
@@ -76,7 +76,7 @@ var levelspawner = {
 			if(this.blocks[i].silver || this.blocks[i].gold){
 				continue;
 			}
-			b.push(this.blocks[i];
+			b.push(this.blocks[i]);
 		}
 		return b;
 	},

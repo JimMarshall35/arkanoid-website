@@ -1,6 +1,7 @@
 const normalpaddleURL = 'assets/playerfullsheet.png';
 const normalblocksURL = "assets/normalblocks.png";
 const specialblocksURL = "assets/specialblocks.png";
+const powerupURL = "assets/powerups.png";
 const ballURL = 'assets/ball.png';
 var canvas = document.getElementById('c');
 var drawlist = [[],[],[]];
