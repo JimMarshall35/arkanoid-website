@@ -5,16 +5,12 @@ function getRandomIntInclusive(min, max) {
 }
 var levelspawner = {
 	blocks : [],
-	powerupsperblock : 0.2,
-	playfield : null,
 	collidableblocks : [],
 	specialloaded : false,
 	normalloaded :false,
-	poweruploaded : false,
 	levelindex : getRandomIntInclusive(0,34),
 	specialimage : null,
 	normalimage : null,
-	powerupimage : null,
 	toprightangle : 0,
 	bottomrightangle : 0,
 	deleteall : function(){
@@ -32,32 +28,31 @@ var levelspawner = {
 	loadimage : function(){
 		var specialimg = new Image();
 		var normalimg = new Image();
-		var pupimg = new Image();
 		specialimg.onload = function(){
-			
+			loadscreen.registerloadedfile();
 			console.log("special");
 			levelspawner.specialloaded = true;
 			levelspawner.specialimage = this;
-			if(levelspawner.normalloaded && levelspawner.poweruploaded){
+			if(levelspawner.normalloaded){
 				console.log("special loaded first")
-				//levelspawner.makelevel();
+				levelspawner.makelevel();
 			}
-			loadscreen.registerloadedfile();
 		}
 		specialimg.src = specialblocksURL;
 		normalimg.onload = function(){
-			
+			loadscreen.registerloadedfile();
 			console.log("normal");
 			levelspawner.normalloaded = true;
 			levelspawner.normalimage = this;
-			if(levelspawner.specialloaded && levelspawner.poweruploaded){
-
-				//levelspawner.makelevel();
+			if(levelspawner.specialloaded){
+				console.log("special loaded first")
+				levelspawner.makelevel();
 			}
-			loadscreen.registerloadedfile();
 		}
 		console.log("loadimage");
+		
 		normalimg.src = normalblocksURL;
+<<<<<<< HEAD
 		pupimg.onload = function(){
 			console.log("powerup");
 			levelspawner.poweruploaded = true;
@@ -100,6 +95,10 @@ var levelspawner = {
 		}
 		
 	},
+=======
+
+	},
+>>>>>>> parent of 17afcd8... Merge branch 'master' of https://github.com/JimMarshall35/arkanoid-website
 	initblockangles : function(){
 		let columns = levels.NES[this.levelindex][0].length;
 		let rows = levels.NES[this.levelindex].length;
@@ -111,24 +110,12 @@ var levelspawner = {
 		this.toprightangle = m2t.getUnsignedAngle(m2tr);
 		this.bottomrightangle = m2t.getUnsignedAngle(m2br);
 	},
-	getplayfieldrect : function(){
-		let height = canvas.height;
-		let width = height * 0.7366071428571429;
-		let x = canvas.width - width/2;
-		let y = 0;
-		this.playfield = new Rect(new Vector2(x,y),width,height);
-		console.log(this.playfield);
-		paddle.scalefactor = height / 448;
-		ball.scalefactor = height / 448;
-		paddle.setrect();
-	},
 	makelevel : function(){
 		this.blocks = [];
 		let level = levels.NES[this.levelindex];
-		this.getplayfieldrect();
-		let blockwidth = this.playfield.width/ 11;
-		let blockheight = this.playfield.height / 28;
-		let cursor = {x:this.playfield.pos.x, y:this.playfield.pos.y};
+		let blockwidth = canvas.width / 11;
+		let blockheight = canvas.height / 28;
+		let cursor = {x:0, y:0};
 		for(var i=0; i < level.length; i++){
 			for(var j=0; j < level[i].length; j++){
 				let blockindex = level[i][j];
