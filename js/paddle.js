@@ -12,8 +12,6 @@ var paddle = {
 				}
 				let index = Math.round((time/this.materializetime)*(paddle.currentanimation.frames.length-1));
 				paddle.currentframespritesheetrect = paddle.currentanimation.frames[index];
-
-
 			},
 			transition2normal : function(){
 				paddle.currentanimation = paddle.animationsobj.normalsize;
@@ -74,7 +72,6 @@ var paddle = {
 			update: function(){
 				if(this.respawnready){
 					this.transition2init();
-					//gamecontroller.decrementlives();
 				}
 				let time = d.getTime() - this.animationtimer;
 				if(time > this.explodespeed){
@@ -102,17 +99,13 @@ var paddle = {
 			}
 		}
 	},
-	state : null,
-	
-	scalefactor: 1.5 * (c.width/330),
-	
+	state : null,	
+	scalefactor: 1.5 * (c.width/330),	
 	animationsobj : {startup : {frames:[], offset: null}, normalsize : {frames:[], offset: null}, die : {frames:[], offset: null}},
 	currentanimation : null,
 	img : null,
 	currentframespritesheetrect : null,
 	rect : new Rect(new Vector2(canvas.width/2,canvas.height - (20*c.width/330)), 0,0),
-	
-
 	initanimations : function(){
 		let sheight = 16;
 		let swidth = 32;
@@ -137,7 +130,6 @@ var paddle = {
 		this.animationsobj.die.offset = new Rect(new Vector2(0,-4),1,2);
 		console.log(this.animationsobj);
 	},
-
 	loadanimation : function(sheight,swidth,subgridorigin,numcolumns,numrows){
 		let arr = [];
 		for(let i=0; i<numrows; i++){
@@ -150,7 +142,6 @@ var paddle = {
 	draw : function(){
 		let srect = this.currentframespritesheetrect;
 		ctx.drawImage(this.img, srect.pos.x, srect.pos.y, srect.w, srect.h, this.rect.pos.x + this.currentanimation.offset.pos.x , this.rect.pos.y + this.currentanimation.offset.pos.y, this.rect.w*this.currentanimation.offset.w, this.rect.h*this.currentanimation.offset.h);
-
 	},
 	loadimage : function(){
 		var normalpaddleimg = new Image();
@@ -161,17 +152,16 @@ var paddle = {
 		normalpaddleimg.src = normalpaddleURL;
 	},
 	init : function(img){
+		scalefactor = 1.5 * (c.width/330);
 		this.img = img;
 		this.rect.w = (img.width/15) * this.scalefactor;
-		this.rect.h = (img.height/28)* this.scalefactor;
+		this.rect.h = (img.height/28) * this.scalefactor;
 		this.initanimations();
 		this.currentanimation = this.animationsobj.startup;
 		this.state = this.transitions.init;
 		drawlist[this.drawlayer].push(this);
 		updatelist.push(this.state);
-
 	},
-
 	move(deltaX){
 		this.rect.pos.x += deltaX;
 		if(this.rect.pos.x < 0){

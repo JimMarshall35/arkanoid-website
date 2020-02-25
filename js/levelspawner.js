@@ -5,6 +5,8 @@ function getRandomIntInclusive(min, max) {
 }
 var levelspawner = {
 	blocks : [],
+	levelcolumnsnum : 11,
+	levelrowsnum : 28,
 	collidableblocks : [],
 	specialloaded : false,
 	normalloaded :false,
@@ -13,6 +15,7 @@ var levelspawner = {
 	normalimage : null,
 	toprightangle : 0,
 	bottomrightangle : 0,
+	powerupsperblock : 0.5,
 	deleteall : function(){
 		if(this.blocks[0]){
 			this.blocks[0].delete();
@@ -68,8 +71,8 @@ var levelspawner = {
 	makelevel : function(){
 		this.blocks = [];
 		let level = levels.NES[this.levelindex];
-		let blockwidth = canvas.width / 11;
-		let blockheight = canvas.height / 28;
+		let blockwidth = canvas.width / this.levelcolumnsnum;
+		let blockheight = canvas.height / this.levelrowsnum;
 		let cursor = {x:0, y:0};
 		for(var i=0; i < level.length; i++){
 			for(var j=0; j < level[i].length; j++){
@@ -99,7 +102,7 @@ var levelspawner = {
 		//console.log("no of blocks: " + this.blocks.length);
 		//console.log("no collidable: " + this.collidableblocks.length);
 		this.initcollidableblocks();
-		
+		//this.setpowerups();
 		console.log(this.collidableblocks);
 		console.log(this.blocks);
 		this.initblockangles();
@@ -155,6 +158,46 @@ var levelspawner = {
 		}
 		console.log("no of blocks: " + this.blocks.length);
 		console.log("no collidable: " + this.collidableblocks.length);
+	},
+	getbreakableblocks : function(){
+		let b = [];
+		for(let i = 0; i<this.blocks.length; i++){
+			if(!this.blocks[i].silver && !this.blocks[i].gold){
+				b.push(this.blocks[i]);
+			}
+			
+		}
+		return b;
+	},
+	findvalidindex : function(b, rindexes){
+
+		let r = getRandomIntInclusive(0,b.length);
+		for(let i=0; i<rindexes.length; i++){
+			if(r == rindexes[i]){
+				findvalidindex(b, rindexes);
+			}
+		}
+		return r;
+
+	},
+	setpowerups : function(){
+		let b = this.getbreakableblocks();
+		console.log("b length " + b.length);
+		let blockwidth = canvas.width / this.levelcolumnsnum;
+		let blockheight = canvas.height / this.levelrowsnum;
+		let num = Math.round(b.length*this.powerupsperblock);
+		let rindexes = [];
+		console.log("num " + num);
+		for(let i=0; i<num; i++){
+			let typeindex = getRandomIntInclusive(0,9);
+			let index = this.findvalidindex(b,rindexes);
+			rindexes.push(index);
+			let block = b[index];
+			let rect = new Rect(new Vector2(block.rect.x, block.rect.y),blockwidth,blockheight);
+			let powerup = new Powerup(rect,{x : 0, y : typeindex});
+			block.powerup = powerup;
+		}
+		
 	},
 	blockkey : [
 		{x:0, y:0},

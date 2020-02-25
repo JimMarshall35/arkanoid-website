@@ -3,32 +3,10 @@ const normalblocksURL = "assets/normalblocks.png";
 const specialblocksURL = "assets/specialblocks.png";
 const ballURL = 'assets/ball.png';
 var canvas = document.getElementById('c');
-var drawlist = [[],[],[]];
+var drawlist = [[],[],[],[]];
 var updatelist = [];
 var d = new Date();
 
-// function resizeGame(){
-// 	var gamearea = document.getElementById("game-area");
-// 	var widthtoheight = 330/448;
-// 	var newwidth = window.innerWidth;
-// 	var newheight = window.innerHeight;
-// 	var newwidthtoheight = newwidth/newheight;
-// 	if(newwidthtoheight > widthtoheight){
-// 		newwidth = newheight*widthtoheight;
-// 		gamearea.style.width = newwidth + 'px';
-// 		gamearea.style.height = newheight + 'px';
-// 	}
-// 	else{
-// 		newheight = newwidth/widthtoheight;
-// 		gamearea.style.width = newwidth + 'px';
-// 		gamearea.style.height = newheight + 'px';
-// 	}
-// 	gamearea.style.marginTop = (-newheight/2) +'px';
-// 	gamearea.style.marginLeft = (-newwidth/2) +'px';
-// 	var gamecanvas = document.getElementById('c');
-// 	gamecanvas.width = newwidth;
-// 	gamecanvas.height = newheight;
-// }
 function resizeGame() {
     var gameArea = document.getElementById('game-area');
     var widthToHeight = 330/448;

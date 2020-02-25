@@ -21,21 +21,18 @@ var ball = {
 		ballimg.src = ballURL;
 	},
 	init : function(){
+		this.scalefactor = 1.5 * (c.width/330);
 		this.velocity = new Vector2(0,-1).multiplyByScalar(this.speed);
 		let pos = new Vector2(paddle.rect.pos.x + paddle.rect.w/2, paddle.rect.pos.y - (4*ball.scalefactor) - 1);
-		this.rect = new Rect(null, 5* ball.scalefactor, 4*ball.scalefactor);
-		//this.rect.pos = new Vector2(paddle.rect.pos.x + paddle.rect.w/2, paddle.rect.pos.y - (4*ball.scalefactor) - 1);
-		//this.bat2me = pos.subtract(paddle.rect.pos);	
+		this.rect = new Rect(null, 5* this.scalefactor, 4* this.scalefactor);
 		this.sticktobat();
 		drawlist[this.drawlayer].push(ball);
 		updatelist.push(ball);
-
 	},
 	draw : function(){
 		ctx.drawImage(this.img, this.rect.pos.x, this.rect.pos.y, this.img.width * this.scalefactor, this.img.height * this.scalefactor);
 	},
-	sticktobat: function(){
-			
+	sticktobat: function(){		
 		this.rect.pos = new Vector2(paddle.rect.pos.x + paddle.rect.w/2, paddle.rect.pos.y - (4*ball.scalefactor) - 1);
 		this.bat2me = this.rect.pos.subtract(paddle.rect.pos);
 		this.stucktobat = true;
@@ -45,16 +42,9 @@ var ball = {
 		if(!this.stucktobat){
 			this.lastpos = this.rect.pos;
 			this.rect.pos = this.rect.pos.add(this.velocity);
-			//console.log(this.rect.pos.x + " , " +this.rect.pos.y);
-			//console.log(this.rect.left);
-			//console.log(this.rect.left + this.rect.w);
-			//console.log(this.rect.w);
-			//console.log(canvas.width);
 			if(this.rect.pos.y > canvas.height && paddle.state != paddle.transitions.dead && paddle.state != paddle.transitions.init){
-				//this.sticktobat();
 				console.log(paddle.state);
 				paddle.state.transition2dead();
-				//gamecontroller.decrementlives();
 			}
 			if(this.rect.left < 0 || this.rect.left + this.rect.w > canvas.width){
 				this.rect.pos = this.lastpos;
@@ -76,8 +66,7 @@ var ball = {
 		}
 		else{
 			this.rect.pos = paddle.rect.pos.add(this.bat2me);
-		}
-		
+		}	
 	},
 	getoverlaparea : function(rect1,rect2){
 		let l1 = new Vector2(rect1.pos.x, rect1.pos.y + rect1.h);
@@ -98,7 +87,6 @@ var ball = {
 				if(Rect.testCollision(iblock.rect, this.rect)){
 					hit = true;
 					block = iblock;
-					//cblocks.push(iblock);
 					break;
 				}
 			}
@@ -109,43 +97,23 @@ var ball = {
 				if(Rect.testCollision(iblock.rect, this.rect)){
 					hit = true;
 					block = iblock;
-					//cblocks.push(iblock);
 					break;
 				}
 			}
 		}
-
-		
 		if(hit){
-			//console.log(block);
-			//console.log(this.lastpos);
 			let mycenter = this.lastpos.add(new Vector2(this.rect.w/2,this.rect.h/2));
 			let blockcenter = block.rect.pos.add(new Vector2(block.rect.w/2, block.rect.h/2));
 			let blockcenter2mycenter = mycenter.subtract(blockcenter);
 			let m2t = new Vector2(block.rect.pos.x + block.rect.w/2, block.rect.pos.y).subtract(new Vector2(block.rect.pos.x + block.rect.w/2, block.rect.pos.y + block.rect.h/2)); 
-			/*
-			console.log(mycenter);
-			console.log(blockcenter);
-			console.log(blockcenter2mycenter);
-			console.log(m2t);
-			*/
-			
 			if(!block.gold){
 				block.health--;
 				if(block.health <= 0){
-					//console.log("deleted");
 					block.delete();
 					levelspawner.initcollidableblocks();
 				}
 			}
-			
 			let angle = m2t.getUnsignedAngle(blockcenter2mycenter);
-			/*
-			console.log("TRA" + levelspawner.toprightangle * (180/Math.PI));
-			console.log("BRA" + levelspawner.bottomrightangle * (180/Math.PI));
-			console.log("angle: "+angle * (180/Math.PI));
-			*/
-			//this.rect.pos = this.lastpos;
 			if (angle >= levelspawner.toprightangle && angle <= levelspawner.bottomrightangle){
 				return "vertical";
 			}
@@ -159,12 +127,10 @@ var ball = {
 		this.speed += this.speedincrease;
 		this.velocity = this.velocity.getNormal().multiplyByScalar(this.speed);
 		switch(surface){
-
 			case "horizontal":
 				this.velocity.y *= -1;
 				break;
-			case "vertical":
-				
+			case "vertical":	
 				this.velocity.x *= -1;
 				break;
 			case "paddle":
@@ -175,8 +141,7 @@ var ball = {
 		}
 	},
 	ballhitrotate : function(){
-		this.velocity.y *= -1;
-		
+		this.velocity.y *= -1;		
 		var batcenter = paddle.rect.pos.x + (paddle.rect.w/2);
 		var disttobatcenter = this.rect.pos.x - batcenter;
 		var degrees = (disttobatcenter/(paddle.rect.w/2)) * this.maxrot;
