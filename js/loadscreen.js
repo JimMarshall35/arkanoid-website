@@ -9,11 +9,9 @@ var loadscreen = {
 		this.filesloaded++;
 		console.log("files loaded "+this.filesloaded);
 		if(this.filesloaded == this.filestoload){
-			//levelspawner.makelevel();
 			this.finished = true;
 		}
 		console.log("finished: " + this.finished);
-
 	},
 	drawloadscreen : function(){
 		ctx.beginPath();

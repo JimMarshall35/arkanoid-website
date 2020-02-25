@@ -52,73 +52,8 @@ var levelspawner = {
 		console.log("loadimage");
 		
 		normalimg.src = normalblocksURL;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-		pupimg.onload = function(){
-			console.log("powerup");
-			levelspawner.poweruploaded = true;
-			levelspawner.powerupimage = this;
-			if(levelspawner.specialloaded && levelspawner.normalloaded){
-			
-			}
-			loadscreen.registerloadedfile();
-		}
-		pupimg.src = powerupURL;
 
 	},
-	getbreakableblocks : function(){
-		let b = [];
-		for(let i = 0; i<this.blocks; i++){
-			if(this.blocks[i].silver || this.blocks[i].gold){
-				continue;
-			}
-			b.push(this.blocks[i]);
-		}
-		return b;
-	},
-	findvalidindex : function(b, rindexes){
-
-		let r = getRandomIntInclusive(0,b.length);
-		for(let i=0; i<rindexes.length; i++){
-			if(r == rindexes[i]){
-				findvalidindex(b, rindexes);
-			}
-		}
-		return r;
-
-	},
-	setpowerups : function(){
-		let b = getbreakableblocks();
-		let num = Math.round(this.blocks.length/this.powerupsperblock);
-		let rindexes = [];
-		for(let i=0; i<num; i++){
-			rindexes.push(findvalidindex(b,rindexes));
-		}
-		
-	},
-=======
-
-	},
->>>>>>> parent of 17afcd8... Merge branch 'master' of https://github.com/JimMarshall35/arkanoid-website
-=======
-
-	},
->>>>>>> parent of 17afcd8... Merge branch 'master' of https://github.com/JimMarshall35/arkanoid-website
-=======
-
-	},
->>>>>>> parent of 17afcd8... Merge branch 'master' of https://github.com/JimMarshall35/arkanoid-website
-=======
-
-	},
->>>>>>> parent of 17afcd8... Merge branch 'master' of https://github.com/JimMarshall35/arkanoid-website
-=======
-
-	},
->>>>>>> parent of 17afcd8... Merge branch 'master' of https://github.com/JimMarshall35/arkanoid-website
 	initblockangles : function(){
 		let columns = levels.NES[this.levelindex][0].length;
 		let rows = levels.NES[this.levelindex].length;
