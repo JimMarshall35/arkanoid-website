@@ -1,16 +1,3 @@
 *{
 	cursor: none;
-	margin-top: 0;
-	margin-bottom: 0;
-	overflow: hidden;
-}
-#game-area{
-	position: absolute;
-	left: 50%;
-	right: 50%;
-}
-#c{
-	width: 100%;
-	height: 100%;
-	bottom: 0;
 }

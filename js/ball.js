@@ -1,13 +1,13 @@
 var ball = {
 	drawlayer : 1,
-	scalefactor : 1.5 * (c.width/330),
+	scalefactor : 2,
 	img : null,
 	rect : null ,
-	speed : 4 * c.width/330,
+	speed : 4,
 	velocity : null,
 	maxrot : 25,
 	lastpos : null,
-	speedincrease : 0.05 * c.width/330,
+	speedincrease : 0.05,
 	stucktobat : true,
 	bat2me : null,
 	loadimage : function(){

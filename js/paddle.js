@@ -104,13 +104,13 @@ var paddle = {
 	},
 	state : null,
 	
-	scalefactor: 1.5 * (c.width/330),
+	scalefactor: 2,
 	
 	animationsobj : {startup : {frames:[], offset: null}, normalsize : {frames:[], offset: null}, die : {frames:[], offset: null}},
 	currentanimation : null,
 	img : null,
 	currentframespritesheetrect : null,
-	rect : new Rect(new Vector2(canvas.width/2,canvas.height - (20*c.width/330)), 0,0),
+	rect : new Rect(new Vector2(canvas.width/2,canvas.height - 20), 0,0),
 	
 
 	initanimations : function(){
