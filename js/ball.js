@@ -3,7 +3,7 @@ var ball = {
 	scalefactor : 1.5 * (c.width/330),
 	img : null,
 	rect : null ,
-	speed : 4 * c.width/330,
+	speed : 6 * (c.width/330),
 	velocity : null,
 	maxrot : 25,
 	lastpos : null,
@@ -148,5 +148,6 @@ var ball = {
 		var radians = degrees * (Math.PI/180);
 		this.velocity = this.velocity.rotate(radians);
 		this.rect.pos.y = paddle.rect.pos.y - this.rect.w -1;
+		//this.rect.pos = this.lastpos;
 	}
 }

@@ -6,7 +6,7 @@ var canvas = document.getElementById('c');
 var drawlist = [[],[],[],[]];
 var updatelist = [];
 var d = new Date();
-
+var lasttouchpos = null;
 function resizeGame() {
     var gameArea = document.getElementById('game-area');
     var widthToHeight = 330/448;
@@ -31,6 +31,35 @@ function resizeGame() {
     gameCanvas.width = newWidth;
     gameCanvas.height = newHeight;
 }
+function handleTouchMove(e){
+	let newpos = e.touches[0].pageX;
+	let deltaX = newpos - lasttouchpos;
+	paddle.move(deltaX)
+	// paddle.rect.pos.x += deltaX;
+	// if(paddle.rect.pos.x < 0){
+	// 	paddle.rect.pos.x = 0;
+	// }
+	// else if(paddle.rect.pos.x > canvas.width - paddle.rect.w){
+	// 	paddle.rect.pos.x = canvas.width - paddle.rect.w;
+	// }
+	lasttouchpos = newpos;
+    e.preventDefault();
+}
+function handleTouchDown(e){
+	lasttouchpos = e.touches[0].pageX;
+	e.preventDefault();
+}
+function handleTouchUp(e){
+	gamecontroller.launchball(e);
+	e.preventDefault();
+}
+function disableScroll(){
+    document.body.addEventListener('touchmove', handleTouchMove, { passive: false });
+    document.body.addEventListener('touchend', handleTouchUp);
+    document.body.addEventListener('touchstart', handleTouchDown);
+}
+
+disableScroll();
 window.addEventListener('resize', resizeGame,false);
 window.addEventListener('orientationchange', resizeGame,false);
 resizeGame();
