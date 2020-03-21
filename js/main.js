@@ -2,10 +2,13 @@
 
 if(canvas.getContext){
 	var ctx = canvas.getContext('2d');
+	var scorectx = scorec.getContext('2d');
+	var sliderctx = sliderc.getContext('2d');
 	paddle.loadimage();
 	ball.loadimage();
 	levelspawner.loadimage();
 	background.loadimage();
+	powerupcontroller.loadimage();
 }
 else{
 	console.log("canvas not supported");
@@ -21,6 +24,10 @@ function drawAll(){
 		ctx.beginPath();
 		ctx.fillStyle = 'red';
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
+		scorectx.fillStyle = 'green';
+		scorectx.fillRect(0,0, scorec.width,scorec.height);
+		sliderctx.fillStyle = 'green';
+		sliderctx.fillRect(0,0, sliderc.width,scorec.height);
 		for(var i=0; i<drawlist.length; i++){ // iterate through layers
 			for(var j=0; j<drawlist[i].length; j++){ // draw each thing in the layer
 				drawlist[i][j].draw();

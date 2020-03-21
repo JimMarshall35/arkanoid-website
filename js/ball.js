@@ -1,15 +1,17 @@
 var ball = {
 	drawlayer : 1,
-	scalefactor : 1.5 * (c.width/330),
+	scalefactor : 1.5 * (canvas.width/330),
 	img : null,
 	rect : null ,
-	speed : 6 * (c.width/330),
+	speed : 400, //* (c.width/330),
 	velocity : null,
 	maxrot : 25,
 	lastpos : null,
-	speedincrease : 0.05 * c.width/330,
+	speedincrease : 10,// * c.width/330,
 	stucktobat : true,
+	willsticktobat : false,
 	bat2me : null,
+	last : null,
 	loadimage : function(){
 		var ballimg = new Image();
 		ballimg.onload = function(){
@@ -23,25 +25,34 @@ var ball = {
 	init : function(){
 		this.scalefactor = 1.5 * (c.width/330);
 		this.velocity = new Vector2(0,-1).multiplyByScalar(this.speed);
+		console.log("speed" + this.speed);
 		let pos = new Vector2(paddle.rect.pos.x + paddle.rect.w/2, paddle.rect.pos.y - (4*ball.scalefactor) - 1);
 		this.rect = new Rect(null, 5* this.scalefactor, 4* this.scalefactor);
 		this.sticktobat();
 		drawlist[this.drawlayer].push(ball);
 		updatelist.push(ball);
+		this.last = d;
 	},
 	draw : function(){
 		ctx.drawImage(this.img, this.rect.pos.x, this.rect.pos.y, this.img.width * this.scalefactor, this.img.height * this.scalefactor);
+	},
+	resetspeed: function(){
+		this.speed = 400;
+		this.velocity = new Vector2(0,-1).multiplyByScalar(this.speed);
 	},
 	sticktobat: function(){		
 		this.rect.pos = new Vector2(paddle.rect.pos.x + paddle.rect.w/2, paddle.rect.pos.y - (4*ball.scalefactor) - 1);
 		this.bat2me = this.rect.pos.subtract(paddle.rect.pos);
 		this.stucktobat = true;
-		this.speed = 4;
+		this.speed = 400;
 	},
 	update : function(){
+		let time = d.getTime();
+		let deltatime = (time - this.last)/1000;
+		this.last = time;
 		if(!this.stucktobat){
 			this.lastpos = this.rect.pos;
-			this.rect.pos = this.rect.pos.add(this.velocity);
+			this.rect.pos = this.rect.pos.add(this.velocity.multiplyByScalar(deltatime));
 			if(this.rect.pos.y > canvas.height && paddle.state != paddle.transitions.dead && paddle.state != paddle.transitions.init){
 				console.log(paddle.state);
 				paddle.state.transition2dead();
@@ -57,6 +68,9 @@ var ball = {
 			else if(Rect.testCollision(this.rect, paddle.rect)){
 				this.rect.pos = this.lastpos;
 				this.ballhitrotate();
+				if(this.willsticktobat){
+					this.sticktobat();
+				}
 			}
 			let bouncetype = this.testcollisionblocks();
 			if(bouncetype != null){
@@ -107,11 +121,7 @@ var ball = {
 			let blockcenter2mycenter = mycenter.subtract(blockcenter);
 			let m2t = new Vector2(block.rect.pos.x + block.rect.w/2, block.rect.pos.y).subtract(new Vector2(block.rect.pos.x + block.rect.w/2, block.rect.pos.y + block.rect.h/2)); 
 			if(!block.gold){
-				block.health--;
-				if(block.health <= 0){
-					block.delete();
-					levelspawner.initcollidableblocks();
-				}
+				block.decrementHealth();
 			}
 			let angle = m2t.getUnsignedAngle(blockcenter2mycenter);
 			if (angle >= levelspawner.toprightangle && angle <= levelspawner.bottomrightangle){
@@ -125,7 +135,8 @@ var ball = {
 	},
 	bounce : function(surface){
 		this.speed += this.speedincrease;
-		this.velocity = this.velocity.getNormal().multiplyByScalar(this.speed);
+		this.velocity = (this.velocity.getNormal()).multiplyByScalar(this.speed);
+
 		switch(surface){
 			case "horizontal":
 				this.velocity.y *= -1;

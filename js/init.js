@@ -1,15 +1,18 @@
 const normalpaddleURL = 'assets/playerfullsheet.png';
 const normalblocksURL = "assets/normalblocks.png";
 const specialblocksURL = "assets/specialblocks.png";
+const powerupURL = "assets/powerups.png";
 const ballURL = 'assets/ball.png';
 var canvas = document.getElementById('c');
+var scorec = document.getElementById('score');
+var sliderc = document.getElementById('slider');
 var drawlist = [[],[],[],[]];
 var updatelist = [];
 var d = new Date();
 var lasttouchpos = null;
 function resizeGame() {
     var gameArea = document.getElementById('game-area');
-    var widthToHeight = 330/448;
+    var widthToHeight = 330/492.8;
     var newWidth = window.innerWidth;
     var newHeight = window.innerHeight;
     var newWidthToHeight = newWidth / newHeight;
@@ -24,7 +27,7 @@ function resizeGame() {
         gameArea.style.height = newHeight + 'px';
     }
     
-    //gameArea.style.marginTop = (-newHeight / 2) + 'px';
+    gameArea.style.marginTop = (-newHeight / 2) + 'px';
     gameArea.style.marginLeft = (-newWidth / 2) + 'px';
     
     var gameCanvas = document.getElementById('c');
@@ -34,14 +37,7 @@ function resizeGame() {
 function handleTouchMove(e){
 	let newpos = e.touches[0].pageX;
 	let deltaX = newpos - lasttouchpos;
-	paddle.move(deltaX)
-	// paddle.rect.pos.x += deltaX;
-	// if(paddle.rect.pos.x < 0){
-	// 	paddle.rect.pos.x = 0;
-	// }
-	// else if(paddle.rect.pos.x > canvas.width - paddle.rect.w){
-	// 	paddle.rect.pos.x = canvas.width - paddle.rect.w;
-	// }
+	paddle.move(deltaX);
 	lasttouchpos = newpos;
     e.preventDefault();
 }

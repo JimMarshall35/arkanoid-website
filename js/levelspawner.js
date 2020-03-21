@@ -102,7 +102,7 @@ var levelspawner = {
 		//console.log("no of blocks: " + this.blocks.length);
 		//console.log("no collidable: " + this.collidableblocks.length);
 		this.initcollidableblocks();
-		//this.setpowerups();
+		this.setpowerups();
 		console.log(this.collidableblocks);
 		console.log(this.blocks);
 		this.initblockangles();
@@ -156,8 +156,8 @@ var levelspawner = {
 			}
 			
 		}
-		console.log("no of blocks: " + this.blocks.length);
-		console.log("no collidable: " + this.collidableblocks.length);
+		//console.log("no of blocks: " + this.blocks.length);
+		//console.log("no collidable: " + this.collidableblocks.length);
 	},
 	getbreakableblocks : function(){
 		let b = [];
@@ -171,10 +171,10 @@ var levelspawner = {
 	},
 	findvalidindex : function(b, rindexes){
 
-		let r = getRandomIntInclusive(0,b.length);
+		let r = getRandomIntInclusive(0,b.length-1);
 		for(let i=0; i<rindexes.length; i++){
 			if(r == rindexes[i]){
-				findvalidindex(b, rindexes);
+				this.findvalidindex(b, rindexes);
 			}
 		}
 		return r;
@@ -182,6 +182,7 @@ var levelspawner = {
 	},
 	setpowerups : function(){
 		let b = this.getbreakableblocks();
+		console.log("blocks length "+this.blocks.length);
 		console.log("b length " + b.length);
 		let blockwidth = canvas.width / this.levelcolumnsnum;
 		let blockheight = canvas.height / this.levelrowsnum;
@@ -193,8 +194,8 @@ var levelspawner = {
 			let index = this.findvalidindex(b,rindexes);
 			rindexes.push(index);
 			let block = b[index];
-			let rect = new Rect(new Vector2(block.rect.x, block.rect.y),blockwidth,blockheight);
-			let powerup = new Powerup(rect,{x : 0, y : typeindex});
+			let rect = new Rect(new Vector2(block.rect.pos.x, block.rect.pos.y),blockwidth,blockheight);
+			let powerup = new PowerupBase(rect,{x : 0, y : typeindex});
 			block.powerup = powerup;
 		}
 		

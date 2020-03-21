@@ -13,11 +13,16 @@ class BlockBase{
 	decrementHealth(){
 		this.health--;
 		if(this.health <= 0){
+			if(this.powerup != null){
+				console.log("powerup released");
+				this.powerup.release();
+			}
 			this.delete();
 			levelspawner.initcollidableblocks();
 		}
 	}
 	delete(){
+		//console.log(drawlist.length);
 		for(let i = 0; i<drawlist[this.drawlayer].length; i++){
 			if(drawlist[this.drawlayer][i] == this){
 				drawlist[this.drawlayer].splice(i, 1);
@@ -33,6 +38,7 @@ class BlockBase{
 				levelspawner.collidableblocks.splice(i, 1);
 			}
 		}
+		//console.log(drawlist.length);
 	}
 
 }
@@ -40,6 +46,7 @@ class Block extends BlockBase{
 	constructor(rect, spritecoords, img, gridcoords){
 		super(rect, spritecoords, img, gridcoords);
 		this.health = 1;
+		this.powerup = null;
 	}
 	
 	draw(){
@@ -106,4 +113,3 @@ class SpecialBlock extends BlockBase{
 		//this.spritecoords.y = 2;
 	}
 }
-
