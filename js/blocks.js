@@ -106,3 +106,4 @@ class SpecialBlock extends BlockBase{
 		//this.spritecoords.y = 2;
 	}
 }
+
