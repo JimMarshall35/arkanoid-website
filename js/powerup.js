@@ -13,14 +13,22 @@ var powerupcontroller = {
 	init : function(img){
 		this.img = img;
 	},
-	powerups : []
+	powerups : [],
+	resetPowerups : function(){
+		ball.willsticktobat = false;
+	},
+	deleteAll :function(){
+		for(let i=0; i<this.powerups; i++){
+			this.powerups[i].delete();
+		}
+	}
 }
 class PowerupBase{
 	constructor(rect, spritecoords){
 		this.rect = rect;
 		this.spritecoords = spritecoords;
 		this.drawlayer = 3;
-		this.speed = 300;
+		this.speed = canvas.width/2;
 		this.timebetweenframes = 0.2;
 		this.animationtimer = 0;
 		this.last = null;
@@ -50,8 +58,13 @@ class PowerupBase{
 		}
 		this.rect.pos = this.rect.pos.add(this.velocity.multiplyByScalar(deltatime));
 		if(Rect.testCollision(this.rect, paddle.rect)){
+			powerupcontroller.resetPowerups();
+			this.effect();
 			this.delete();
 		}
+
+	}
+	effect(){
 
 	}
 	delete(){
@@ -80,6 +93,14 @@ class PowerupBase{
 }
 class StickPowerup extends PowerupBase{
 	effect(){
+		ball.willsticktobat = true;
+	}
+}
+class LaserPowerup extends PowerupBase{
+	effect(){
+		if(paddle.state == paddle.transitions.normal){
+			paddle.transition2laser();
+		}
 		
 	}
 }

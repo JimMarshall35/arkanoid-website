@@ -12,6 +12,9 @@ var gamecontroller = {
 		else if(ball.stucktobat && evt){
 			ball.stucktobat = false;
 		}
+		if(paddle.state == paddle.transitions.laser){
+			paddle.shoot;
+		}
 	}, 
 	decrementlives : function(){
 		this.lives--;

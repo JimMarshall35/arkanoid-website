@@ -195,7 +195,7 @@ var levelspawner = {
 			rindexes.push(index);
 			let block = b[index];
 			let rect = new Rect(new Vector2(block.rect.pos.x, block.rect.pos.y),blockwidth,blockheight);
-			let powerup = new PowerupBase(rect,{x : 0, y : typeindex});
+			let powerup = new StickPowerup(rect,{x : 0, y : typeindex});
 			block.powerup = powerup;
 		}
 		

@@ -4,14 +4,17 @@ if(canvas.getContext){
 	var ctx = canvas.getContext('2d');
 	var scorectx = scorec.getContext('2d');
 	var sliderctx = sliderc.getContext('2d');
-	paddle.loadimage();
-	ball.loadimage();
-	levelspawner.loadimage();
-	background.loadimage();
-	powerupcontroller.loadimage();
+	loadImages();
 }
 else{
 	console.log("canvas not supported");
+}
+function loadImages(){
+	paddle.loadimage();
+	ball.loadimage();
+	levelspawner.loadimage();
+	//background.loadimage();
+	powerupcontroller.loadimage();
 }
 function updateAll(){
 	for(var i=0; i<updatelist.length; i++){
@@ -49,4 +52,17 @@ document.body.addEventListener('mousemove', e => {
 	paddle.move(e.movementX);
 });
 document.body.addEventListener('click', gamecontroller.launchball);
+document.addEventListener('keydown', function(e){
+	if(e.code == "KeyS" && paddle.state == paddle.transitions.normal){
+		paddle.state.transition2laser();
+	}
+	if(e.code == "KeyS" && paddle.state == paddle.transitions.laser){
+		paddle.state.transitionfromlaser();
+	}
+	if(e.code == "KeyA" && paddle.state == paddle.transitions.laser){
+		paddle.shoot();
+		//console.log(paddle.projectiles.length);
+	}
+
+});
 window.requestAnimationFrame(loop);
